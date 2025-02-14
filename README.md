@@ -32,25 +32,41 @@ API REST Segura - TareasHogarAPI
 
 ## 2. Endpoints y Descripción de Cada uno
 
-### Autenticación
-
+### Usuarios
 - **POST /api/auth/login**  
   **Descripción:** Autentica al usuario. Se envían las credenciales (username y password) y, de ser correctas, se devuelve un token JWT para autorizar futuras solicitudes.
 
 - **POST /api/auth/register**  
   **Descripción:** Permite el registro de un nuevo usuario. Se envían los datos necesarios (username, password, etc.) y se almacena el usuario con la contraseña hasheada.
 
-### Tareas
+- **GET /api/usuarios**  
+  **Descripción:** Devuelve la lista de todos los usuarios (getAll). Este endpoint suele estar restringido a usuarios con rol ADMIN.
 
+- **GET /api/usuarios/{id}**  
+  **Descripción:** Devuelve la información de un usuario específico (get).
+
+- **PUT /api/usuarios/{id}**  
+  **Descripción:** Actualiza la información de un usuario (update). El usuario podrá actualizar sus propios datos o, en el caso de un ADMIN, actualizar la información de cualquier usuario.
+
+- **DELETE /api/usuarios/{id}**  
+  **Descripción:** Elimina un usuario. (Este endpoint se puede implementar para administración, si es necesario).
+
+### Tareas
 - **GET /api/tareas**  
   **Descripción:**
-  - Usuario con rol USER: Devuelve únicamente las tareas asociadas al usuario autenticado.
-  - Usuario con rol ADMIN: Devuelve todas las tareas de la aplicación.
+  - Para usuario con rol USER: Devuelve únicamente las tareas asociadas al usuario autenticado (getAll).
+  - Para usuario con rol ADMIN: Devuelve todas las tareas de la aplicación.
+
+- **GET /api/tareas/{id}**  
+  **Descripción:** Devuelve una tarea específica (get).
 
 - **POST /api/tareas**  
   **Descripción:**
-  - Usuario con rol USER: Permite dar de alta una nueva tarea que se asociará automáticamente al usuario autenticado.
-  - Usuario con rol ADMIN: Permite crear una tarea y asignarla a cualquier usuario especificado en la solicitud.
+  - Para usuario con rol USER: Permite dar de alta una nueva tarea que se asociará automáticamente al usuario autenticado.
+  - Para usuario con rol ADMIN: Permite crear una tarea y asignarla a cualquier usuario especificado en la solicitud.
+
+- **PUT /api/tareas/{id}**  
+  **Descripción:** Actualiza la información de una tarea (update). Se pueden modificar campos como título, descripción o estado (excepto la acción de “completar”, que tiene un endpoint específico).
 
 - **PUT /api/tareas/{id}/completar**  
   **Descripción:** Marca una tarea como completada.  
@@ -60,18 +76,24 @@ API REST Segura - TareasHogarAPI
   **Descripción:** Elimina una tarea.  
   **Restricción:** El usuario solo puede eliminar sus propias tareas, mientras que un administrador puede eliminar cualquier tarea.
 
-### Usuarios (para administración)
-
-- **GET /api/usuarios/{id}**  
-  **Descripción:** Devuelve la información de un usuario específico. Este endpoint está destinado para funciones administrativas o de consulta detallada.
-
 ### Direcciones
+- **GET /api/direcciones**  
+  **Descripción:** Devuelve la lista de todas las direcciones (getAll). La visibilidad de este endpoint dependerá de la política de acceso (por ejemplo, solo ADMIN o el usuario propietario).
 
-- **GET /api/direcciones/{usuarioId}**  
-  **Descripción:** Devuelve la dirección asociada a un usuario determinado.
+- **GET /api/direcciones/{id}**  
+  **Descripción:** Devuelve una dirección específica (get).
+
+- **GET /api/direcciones/usuario/{usuarioId}**  
+  **Descripción:** Devuelve la dirección asociada a un usuario determinado. (Alternativa para obtener la dirección por el id del usuario.)
 
 - **POST /api/direcciones**  
   **Descripción:** Permite dar de alta una dirección para un usuario. La dirección se asocia al usuario indicado.
+
+- **PUT /api/direcciones/{id}**  
+  **Descripción:** Actualiza la información de una dirección (update).
+
+- **DELETE /api/direcciones/{id}**  
+  **Descripción:** Elimina una dirección. (Este endpoint se puede implementar para administración o para que el propio usuario elimine su dirección.)
 
 ---
 
