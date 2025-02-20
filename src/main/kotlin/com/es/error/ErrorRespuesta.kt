@@ -1,4 +1,4 @@
-package com.es.gestionViajesAPI.error
+package com.es.error
 
 data class ErrorRespuesta(
     var message: String,

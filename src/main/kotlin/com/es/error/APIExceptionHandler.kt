@@ -1,7 +1,7 @@
-package com.es.gestionViajesAPI.error
+package com.es.error
 
-import com.es.gestionViajesAPI.error.exception.BadRequestException
-import com.es.gestionViajesAPI.error.exception.NotFoundException
+import com.es.error.exception.BadRequestException
+import com.es.error.exception.NotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice

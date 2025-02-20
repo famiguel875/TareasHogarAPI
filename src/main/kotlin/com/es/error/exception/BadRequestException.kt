@@ -1,4 +1,4 @@
-package com.es.gestionViajesAPI.error.exception
+package com.es.error.exception
 
 class BadRequestException(message: String) : RuntimeException("Bad Request Exception (400). $message") {
 }
