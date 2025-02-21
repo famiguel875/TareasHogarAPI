@@ -150,3 +150,49 @@ API REST Segura - TareasHogarAPI
 ### Validación de Datos y Auditoría
 - Se implementan validaciones en el servidor para asegurar la integridad y formato correcto de los datos.
 - Se registran los intentos de acceso no autorizado y se lleva un registro de auditoría para el análisis y seguimiento de posibles incidencias de seguridad.
+
+---
+
+## 6. PRUEBAS GESTIÓN USUARIOS
+
+### Registro de usuarios
+
+- Pruebas de ejemplo de registrar un usuario de exitosamente.
+
+![Parte2_1.png](src/main/resources/capturasparte2/Parte2_1.png)
+
+- Pruebas de ejemplo de error al registrar un usuario con el mismo username.
+
+![RegisterFallo1.png](src/main/resources/capturasparte2/RegisterFallo1.png)
+
+- Pruebas de ejemplo de error al registrar un usuario sin validar la contraseña correctamente.
+
+![RegisterFallo2.png](src/main/resources/capturasparte2/RegisterFallo2.png)
+
+### Login de usuarios
+
+- Se logea un usuario correctamente, lo que hace que devuelva un token.
+
+![Parte2_2.png](src/main/resources/capturasparte2/Parte2_2.png)
+
+- Se intenta logear con una contraseña incorrecta.
+
+![LoginFallo1.png](src/main/resources/capturasparte2/LoginFallo1.png)
+
+- Se intenta logear con un usuario no registrado en la BBDD.
+
+![LoginFallo2.png](src/main/resources/capturasparte2/LoginFallo2.png)
+
+### Gestión de usuarios con interfaz
+
+- Se introducen los datos para registar un usuario en la interfaz y le damos a register.
+
+![RegisterInterfaz1.png](src/main/resources/capturasparte2/RegisterInterfaz1.png)
+
+- Vamos a la BBDD MongoDB y comprobamos que el usuario se ha registrado correctamente.
+
+![RegisterInterfaz2.png](src/main/resources/capturasparte2/RegisterInterfaz2.png)
+
+- Introducimos en la interfaz los datos de un usuario registrado, al hacer esto la interfaz nos devolverá un token.
+
+![loginInterfaz1.png](src/main/resources/capturasparte2/loginInterfaz1.png)
