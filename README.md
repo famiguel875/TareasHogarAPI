@@ -33,66 +33,66 @@ API REST Segura - TareasHogarAPI
 ## 2. Endpoints y Descripción de Cada uno
 
 ### Usuarios
-- **POST /api/auth/login**  
+- **POST /auth/login**  
   **Descripción:** Autentica al usuario. Se envían las credenciales (username y password) y, de ser correctas, se devuelve un token JWT para autorizar futuras solicitudes.
 
-- **POST /api/auth/register**  
+- **POST /auth/register**  
   **Descripción:** Permite el registro de un nuevo usuario. Se envían los datos necesarios (username, password, etc.) y se almacena el usuario con la contraseña hasheada.
 
-- **GET /api/usuarios**  
+- **GET /usuarios**  
   **Descripción:** Devuelve la lista de todos los usuarios (getAll). Este endpoint suele estar restringido a usuarios con rol ADMIN.
 
-- **GET /api/usuarios/{id}**  
+- **GET /usuarios/{username}**  
   **Descripción:** Devuelve la información de un usuario específico (get).
 
-- **PUT /api/usuarios/{id}**  
+- **PUT /usuarios/{username}**  
   **Descripción:** Actualiza la información de un usuario (update). El usuario podrá actualizar sus propios datos o, en el caso de un ADMIN, actualizar la información de cualquier usuario.
 
-- **DELETE /api/usuarios/{id}**  
+- **DELETE /usuarios/{username}**  
   **Descripción:** Elimina un usuario. (Este endpoint se puede implementar para administración, si es necesario).
 
 ### Tareas
-- **GET /api/tareas**  
+- **GET /tareas**  
   **Descripción:**
   - Para usuario con rol USER: Devuelve únicamente las tareas asociadas al usuario autenticado (getAll).
   - Para usuario con rol ADMIN: Devuelve todas las tareas de la aplicación.
 
-- **GET /api/tareas/{id}**  
+- **GET /tareas/{codigo}**  
   **Descripción:** Devuelve una tarea específica (get).
 
-- **POST /api/tareas**  
+- **POST /tareas**  
   **Descripción:**
   - Para usuario con rol USER: Permite dar de alta una nueva tarea que se asociará automáticamente al usuario autenticado.
   - Para usuario con rol ADMIN: Permite crear una tarea y asignarla a cualquier usuario especificado en la solicitud.
 
-- **PUT /api/tareas/{id}**  
+- **PUT /tareas/{codigo}**  
   **Descripción:** Actualiza la información de una tarea (update). Se pueden modificar campos como título, descripción o estado (excepto la acción de “completar”, que tiene un endpoint específico).
 
-- **PUT /api/tareas/{id}/completar**  
+- **PUT /tareas/{codigo}/completar**  
   **Descripción:** Marca una tarea como completada.  
   **Restricción:** El usuario solo puede completar sus propias tareas, a menos que sea administrador.
 
-- **DELETE /api/tareas/{id}**  
+- **DELETE /tareas/{codigo}**  
   **Descripción:** Elimina una tarea.  
   **Restricción:** El usuario solo puede eliminar sus propias tareas, mientras que un administrador puede eliminar cualquier tarea.
 
 ### Direcciones
-- **GET /api/direcciones**  
+- **GET /direcciones**  
   **Descripción:** Devuelve la lista de todas las direcciones (getAll). La visibilidad de este endpoint dependerá de la política de acceso (por ejemplo, solo ADMIN o el usuario propietario).
 
-- **GET /api/direcciones/{id}**  
+- **GET /direcciones/{codigo}**  
   **Descripción:** Devuelve una dirección específica (get).
 
-- **GET /api/direcciones/usuario/{usuarioId}**  
+- **GET /direcciones/usuario/{username}**  
   **Descripción:** Devuelve la dirección asociada a un usuario determinado. (Alternativa para obtener la dirección por el id del usuario.)
 
-- **POST /api/direcciones**  
+- **POST /direcciones**  
   **Descripción:** Permite dar de alta una dirección para un usuario. La dirección se asocia al usuario indicado.
 
-- **PUT /api/direcciones/{id}**  
+- **PUT /direcciones/{codigo}**  
   **Descripción:** Actualiza la información de una dirección (update).
 
-- **DELETE /api/direcciones/{id}**  
+- **DELETE /direcciones/{codigo}**  
   **Descripción:** Elimina una dirección. (Este endpoint se puede implementar para administración o para que el propio usuario elimine su dirección.)
 
 ---
@@ -120,11 +120,11 @@ API REST Segura - TareasHogarAPI
 - **400 Bad Request:**  
   Se retorna cuando la solicitud tiene errores en los datos enviados o está mal formada.
 
-- **401 Unauthorized:**  
+- **401 Unauthorized:**
   Se utiliza cuando el usuario no está autenticado o el token JWT es inválido o ha expirado.
 
-- **403 Forbidden:**  
-  Se devuelve cuando el usuario autenticado intenta acceder a un recurso o realizar una acción para la cual no tiene permisos (por ejemplo, un usuario intentando eliminar una tarea de otro usuario).
+- **403 Forbidden:**
+  Se devuelve cuando el usuario autenticado intenta acceder a un recurso o realizar una acción para la cual no tiene permisos (por ejemplo, un usuario intentando eliminar una tarea de otro usuario)
 
 - **404 Not Found:**  
   Se emplea cuando se solicita un recurso que no existe (por ejemplo, una tarea o usuario inexistente).
@@ -196,3 +196,271 @@ API REST Segura - TareasHogarAPI
 - Introducimos en la interfaz los datos de un usuario registrado, al hacer esto la interfaz nos devolverá un token.
 
 ![loginInterfaz1.png](src/main/resources/capturasparte2/loginInterfaz1.png)
+
+---
+
+## 7. PRUEBAS GESTIÓN TAREAS
+
+## Pruebas usuarios
+
+### GET /usuarios
+
+![obtenerusuarios1.png](src/main/resources/capturasparte3/obtenerusuarios1.png)
+
+- Método para que un administrador pueda obtener todos los usuarios.
+
+![obtenerusuarios2.png](src/main/resources/capturasparte3/obtenerusuarios2.png)
+
+- Excepción cuando un usuario intenta obtener todos los usuarios.
+
+### GET /usuarios/{username}
+
+![usuarioId1.png](src/main/resources/capturasparte3/usuarioId1.png)
+
+- Método para obtener un usuario por su username.
+
+![usuarioId2.png](src/main/resources/capturasparte3/usuarioId2.png)
+
+- Excepción que salta cuando un usuario intenta obtener otro usuario que no es el suyo.
+
+![usuarioId3.png](src/main/resources/capturasparte3/usuarioId3.png)
+
+- Excepción que salta cuando no se encuentra el usuario solicitado.
+
+### PUT /usuarios/{username}
+
+![actualizarusuario1.png](src/main/resources/capturasparte3/actualizarusuario1.png)
+
+- Se actualiza la contraseña y el email del usuario indicado por su username.
+
+![actualizarusuario3.png](src/main/resources/capturasparte3/actualizarusuario3.png)
+
+- Excepción que salta cuando un usuario intenta obtener otro usuario que no es el suyo.
+
+![actualizarusuario2.png](src/main/resources/capturasparte3/actualizarusuario2.png)
+
+- Excepción que salta cuando no se encuentra el usuario solicitado.
+
+### DELETE /usuarios/{username}
+
+![eliminarusuario1.png](src/main/resources/capturasparte3/eliminarusuario1.png)
+
+- Método para eliminar un usuario por su username.
+
+![eliminarusuario2.png](src/main/resources/capturasparte3/eliminarusuario2.png)
+
+- Excepción que salta cuando un usuario intenta eliminar otro usuario que no es el suyo.
+
+![eliminarusuario3.png](src/main/resources/capturasparte3/eliminarusuario3.png)
+
+- Excepción que salta cuando no se encuentra el usuario solicitado.
+
+## Pruebas tareas
+
+### GET /tareas
+
+![obtenertareas1.png](src/main/resources/capturasparte3/obtenertareas1.png)
+
+- Método para que un administrador pueda obtener todas tareas de todos los usuarios.
+
+![obtenertareas2.png](src/main/resources/capturasparte3/obtenertareas2.png)
+
+- Método para que un usuario pueda obtener todas sus tareas.
+
+### GET /tareas/{codigo}
+
+![tareaId1.png](src/main/resources/capturasparte3/tareaId1.png)
+
+- Método para que un administrador pueda obtener cualquier tarea de cualquier usuario.
+
+![tareaId2.png](src/main/resources/capturasparte3/tareaId2.png)
+
+- Método para que un usuario pueda obtener una tarea asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![tareaId3.png](src/main/resources/capturasparte3/tareaId3.png)
+
+- Excepción que salta cuando un usuario intenta obtener una tarea de un usuario que no es el suyo.
+
+![tareaId4.png](src/main/resources/capturasparte3/tareaId4.png)
+
+- Excepción que salta cuando no se encuentra la tarea solicitada.
+
+### POST /tareas
+
+![creartarea1.png](src/main/resources/capturasparte3/creartarea1.png)
+
+- Método para que un administrador pueda crear una tarea asociada a cualquier usuario asignandola a su username.
+
+![creartarea2.png](src/main/resources/capturasparte3/creartarea2.png)
+
+- Método para que un usuario pueda crear una tarea asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![creartarea3.png](src/main/resources/capturasparte3/creartarea3.png)
+
+- Excepción que salta cuando se intenta crear una tarea sin un token válido.
+
+![creartarea4.png](src/main/resources/capturasparte3/creartarea4.png)
+
+- Excepción que salta cuando se intenta craer una tarea con un código ya existente en la BBDD.
+
+### PUT /tareas/{codigo}
+
+![actualizartareaid1.png](src/main/resources/capturasparte3/actualizartareaid1.png)
+
+- Método para que un administrador pueda actualizar una tarea asociada a cualquier usuario mediante su username.
+
+![actualizartareaid2.png](src/main/resources/capturasparte3/actualizartareaid2.png)
+
+- Método para que un usuario pueda actualizar una tarea asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![actualizartareaid3.png](src/main/resources/capturasparte3/actualizartareaid3.png)
+
+- Excepción que salta cuando un usuario intenta obtener una tarea de un usuario que no es el suyo.
+
+![actualizartareaid4.png](src/main/resources/capturasparte3/actualizartareaid4.png)
+
+- Excepción que salta cuando no se encuentra la tarea solicitada.
+
+### PUT /tareas/{codigo}/completar
+
+![completartarea1.png](src/main/resources/capturasparte3/completartarea1.png)
+
+- Método para que un administrador pueda marcar como completada una tarea asociada a cualquier usuario mediante su username.
+
+![completartarea2.png](src/main/resources/capturasparte3/completartarea2.png)
+
+- Método para que un usuario pueda marcar como completada una tarea asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![completartarea3.png](src/main/resources/capturasparte3/completartarea3.png)
+
+- Excepción que salta cuando un usuario intenta marcar como completada una tarea de un usuario que no es el suyo.
+
+![completartarea4.png](src/main/resources/capturasparte3/completartarea4.png)
+
+- Excepción que salta cuando no se encuentra la tarea solicitada.
+
+### DELETE /tareas/{codigo}
+
+![eliminartarea1.png](src/main/resources/capturasparte3/eliminartarea1.png)
+
+- Método para que un administrador pueda eliminar una tarea asociada a cualquier usuario mediante su username.
+
+![eliminartarea2.png](src/main/resources/capturasparte3/eliminartarea2.png)
+
+- Método para que un usuario pueda eliminar una tarea asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![eliminartarea3.png](src/main/resources/capturasparte3/eliminartarea3.png)
+
+- Excepción que salta cuando un usuario intenta eliminar una tarea de un usuario que no es el suyo.
+
+![eliminartarea4.png](src/main/resources/capturasparte3/eliminartarea4.png)
+
+- Excepción que salta cuando no se encuentra la tarea solicitada.
+
+## Pruebas direcciones
+
+### GET /direcciones
+
+![obtenerdirecciones1.png](src/main/resources/capturasparte3/obtenerdirecciones1.png)
+
+- Método para que un administrador pueda obtener todas las direcciones de todos los usuarios.
+
+![obtenerdirecciones2.png](src/main/resources/capturasparte3/obtenerdirecciones2.png)
+
+- Método para que un usuario pueda obtener su dirección.
+
+![obtenerdirecciones3.png](src/main/resources/capturasparte3/obtenerdirecciones3.png)
+
+- Excepción que salta cuando un usuario tiene más de una dirección asociada.
+
+### GET /direcciones/{codigo}
+
+![direccionId1.png](src/main/resources/capturasparte3/direccionId1.png)
+
+- Método para que un administrador pueda obtener cualquier dirección de cualquier usuario.
+
+![direccionId2.png](src/main/resources/capturasparte3/direccionId2.png)
+
+- Método para que un usuario pueda obtener la dirección asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![direccionId3.png](src/main/resources/capturasparte3/direccionId3.png)
+
+- Excepción que salta cuando un usuario intenta obtener la dirección de un usuario que no es el suyo.
+
+![direccionId4.png](src/main/resources/capturasparte3/direccionId4.png)
+
+- Excepción que salta cuando no se encuentra la dirección solicitada.
+
+### GET /direcciones/usuario/{username}
+
+![direccionusuario1.png](src/main/resources/capturasparte3/direccionusuario1.png)
+
+- Método para que un administrador pueda obtener cualquier dirección de cualquier usuario usando el username como parámetro de búsqueda.
+
+![direccionusuario2.png](src/main/resources/capturasparte3/direccionusuario2.png)
+
+- Método para que un usuario pueda obtener la dirección asociada a si mismo usando el username como parámetro de búsqueda (se ignora el contenido del username, el token asigna al usuario).
+
+![direccionusuario3.png](src/main/resources/capturasparte3/direccionusuario3.png)
+
+- Excepción que salta cuando un usuario intenta obtener la dirección de un usuario que no es el suyo.
+
+![direccionusuario4.png](src/main/resources/capturasparte3/direccionusuario4.png)
+
+- Excepción que salta cuando no se encuentra la dirección solicitada.
+
+### POST /direcciones
+
+![creardireccion1.png](src/main/resources/capturasparte3/creardireccion1.png)
+
+- Método para que un administrador pueda crear una dirección asociada a cualquier usuario asignandola a su username.
+
+![creardireccion2.png](src/main/resources/capturasparte3/creardireccion2.png)
+
+- Método para que un usuario pueda crear una dirección asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![creardireccion3.png](src/main/resources/capturasparte3/creardireccion3.png)
+
+- Excepción que salta cuando se intenta crear una dirección sin un token válido.
+
+![creardireccion4.png](src/main/resources/capturasparte3/creardireccion4.png)
+
+- Excepción que salta cuando se intenta craer una dirección con un código ya existente en la BBDD.
+
+### PUT /direcciones/{codigo}
+
+![actualizardireccion1.png](src/main/resources/capturasparte3/actualizardireccion1.png)
+
+- Método para que un administrador pueda actualizar cualquier dirección de cualquier usuario.
+
+![actualizardireccion2.png](src/main/resources/capturasparte3/actualizardireccion2.png)
+
+- Método para que un usuario pueda actualizar la dirección asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![actualizardireccion3.png](src/main/resources/capturasparte3/actualizardireccion3.png)
+
+- Excepción que salta cuando un usuario intenta actualizar la dirección de un usuario que no es el suyo.
+
+![actualizardireccion4.png](src/main/resources/capturasparte3/actualizardireccion4.png)
+
+- Excepción que salta cuando no se encuentra la dirección solicitada.
+
+### DELETE /direcciones/{codigo}
+
+![eliminardireccion1.png](src/main/resources/capturasparte3/eliminardireccion1.png)
+
+- Método para que un administrador pueda eliminar cualquier dirección de cualquier usuario.
+
+![eliminardireccion2.png](src/main/resources/capturasparte3/eliminardireccion2.png)
+
+- Método para que un usuario pueda eliminar la dirección asociada a si mismo (se ignora el contenido del username, el token asigna al usuario).
+
+![eliminardireccion3.png](src/main/resources/capturasparte3/eliminardireccion3.png)
+
+- Excepción que salta cuando un usuario intenta eliminar la dirección de un usuario que no es el suyo.
+
+![eliminardireccion4.png](src/main/resources/capturasparte3/eliminardireccion4.png)
+
+- Excepción que salta cuando no se encuentra la dirección solicitada.
+
+---

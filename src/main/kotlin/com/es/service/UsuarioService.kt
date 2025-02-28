@@ -44,8 +44,6 @@ class UsuarioService(
             throw BadRequestException("El usuario ya existe")
         }
 
-        // Aquí se podrían agregar validaciones adicionales (por ejemplo, si existiera dirección o validaciones externas).
-
         // Crear la entidad Usuario, codificando la contraseña y asignando rol por defecto si es necesario.
         val usuario = Usuario(
             id = null,
@@ -83,10 +81,11 @@ class UsuarioService(
         return usuarioRepository.save(usuarioExistente)
     }
 
-    fun deleteUsuario(username: String) {
+    fun deleteUsuario(username: String): Usuario {
         val usuario = usuarioRepository.findByUsername(username)
             .orElseThrow { NotFoundException("Usuario con username $username no encontrado") }
         usuarioRepository.delete(usuario)
+        return usuario
     }
 
     fun findByUsername(username: String): Usuario {
